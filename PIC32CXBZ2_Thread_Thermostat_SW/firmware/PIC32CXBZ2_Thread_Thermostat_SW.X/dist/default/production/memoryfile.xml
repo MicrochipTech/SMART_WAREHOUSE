@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <executable name="dist/default/production/PIC32CXBZ2_Thread_Thermostat_SW.X.production.elf">
+    <memory name="program">
+      <units>bytes</units>
+      <length>1032192</length>
+      <used>303020</used>
+      <free>729172</free>
+    </memory>
+    <memory name="data">
+      <units>bytes</units>
+      <length>131072</length>
+      <used>97986</used>
+      <free>33086</free>
+    </memory>
+  </executable>
+</project>
