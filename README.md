@@ -43,3 +43,39 @@ However, despite the numerous benefits, smart warehouses face several challenges
 This Smart Warehouse project, Demonstrates a comprehensive smart system for a residential or commercial property. The system integrates various IoT devices, including a thermostat sensor, HVAC system, access control, lighting control, solar panels, garage door, and EV charger, all connected to a Thread gateway. Thread is a wireless communication protocol designed for IoT applications, providing reliable and secure connectivity. By integrating these devices into a unified system, you aim to enhance energy efficiency, security, and convenience for the occupants. Additionally, the integration with AWS (Amazon Web Services) enables remote monitoring and control through a web interface, enhancing accessibility and scalability. This project showcases the potential of IoT and cloud technologies to create smart and sustainable environments.
 
 ![](docs/intro2.png)
+
+## 2. Bill of materials<a name="step2">
+
+| TOOLS | QUANTITY |
+| :- | :- |
+| [PIC32CX-BZ2 and WBZ451 Curiosity Development Board](https://www.microchip.com/en-us/development-tool/EV96B94A) | 7 |
+| [TEMP&HUM 13 CLICK](https://www.mikroe.com/temphum-13-click) | 1 |
+
+
+ATSAMC21-XPRO Microcontroller board
+
+ATAB-LFTX-V4.0 (EV72X74A) LF antenna module
+
+ATA5831-XPRO (EV14T68A) RF transceiver board
+
+ATAB5702A-V2.3B (EV06Z22A) PEPS transmitter board
+
+
+SAM9X75 Curiosity Board
+Display
+Rio2 M.2
+
+EVSE EV Charger
+
+
+| [DSPICDEM™ MCLV-2 DEVELOPMENT BOARD (MOTOR CONTROL LOW-VOLTAGE)](https://www.microchip.com/en-us/development-tool/dm330021-2) | 1 |
+| [Hurst DMA0204024B101 BLDC Motor]() | 1 |
+
+| [LED Strip]() | 1 |
+
+Solar Panel
+Light Intensity Module
+
+
+12v DC FAN  --  2
+RELAY--- 1
