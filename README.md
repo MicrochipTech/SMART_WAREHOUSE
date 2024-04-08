@@ -8,7 +8,6 @@
 Devices: **| PIC32CXBZ2 | WBZ45x | SAM9X75 |**<br>
 Features: **| THREAD | Sub-GHz | BLE |**
 
-
 ## ⚠ Disclaimer
 
 <p><span style="color:red"><b>
@@ -24,13 +23,6 @@ Checkout the <a href="https://microchipsupport.force.com/s/" target="_blank">Tec
 1. [Introduction](#step1)
 2. [Bill of materials](#step2)
 3. [Hardware Setup](#step3)
-4. [Software Setup](#step4)
-5. [Harmony MCC Configuration](#step5)
-6. [Board Programming](#step6)
-7. [Run the demo](#step7)
-
-
-
 
 ## 1. Introduction<a name="step1">
 
@@ -50,32 +42,29 @@ This Smart Warehouse project, Demonstrates a comprehensive smart system for a re
 | :- | :- |
 | [PIC32CX-BZ2 and WBZ451 Curiosity Development Board](https://www.microchip.com/en-us/development-tool/EV96B94A) | 7 |
 | [TEMP&HUM 13 CLICK](https://www.mikroe.com/temphum-13-click) | 1 |
-
-
-ATSAMC21-XPRO Microcontroller board
-
-ATAB-LFTX-V4.0 (EV72X74A) LF antenna module
-
-ATA5831-XPRO (EV14T68A) RF transceiver board
-
-ATAB5702A-V2.3B (EV06Z22A) PEPS transmitter board
-
-
-SAM9X75 Curiosity Board
-Display
-Rio2 M.2
-
-EVSE EV Charger
-
-
+| [SAM C21 XPLAINED PRO EVALUATION KIT](https://www.microchip.com/en-us/development-tool/atsamc21-xpro) | 1 |
+| [ATAB-LFTX-V4.0](https://www.microchip.com/en-us/development-tool/ev72x74a) | 1 |
+| [ATA5831-XPRO](https://www.microchip.com/en-us/development-tool/ev14t68a) | 1 |
+| [ATAB5702A-V2.3B](https://www.microchip.com/en-us/development-tool/ev06z22a) | 1 |
+| [SAM9X75 Curiosity Development Board](https://www.microchip.com/en-us/product/sam9x75) | 1 |
+| [AC69T88A](https://www.microchip.com/en-us/development-tool/AC69T88A) | 1 |
 | [DSPICDEM™ MCLV-2 DEVELOPMENT BOARD (MOTOR CONTROL LOW-VOLTAGE)](https://www.microchip.com/en-us/development-tool/dm330021-2) | 1 |
-| [Hurst DMA0204024B101 BLDC Motor]() | 1 |
+| Hurst DMA0204024B101 BLDC Motor | 1 |
+| RGB LED Strip | 1 |
+| Solar panel with servo motor kit | 1 |
+| BH1750 digital light intensity module | 1 |
+| 12v DC FAN | 2 |
+| 3.3v low level trigger relay module | 1 |
 
-| [LED Strip]() | 1 |
+## 3. Hardware Setup<a name="step3">
 
-Solar Panel
-Light Intensity Module
+![](docs/hardware.png)
 
+- The Smart Warehouse Demo's whole hardware setup is shown here. The project folder contains the application's hardware connection.
 
-12v DC FAN  --  2
-RELAY--- 1
+![](docs/hardware_2.png)
+
+- This demo has an AWS webpage that allows us to control the application that is shown below.
+
+![](docs/hardware_3.png)
+
