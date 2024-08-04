@@ -16,7 +16,7 @@
 *******************************************************************************/
 
 /*******************************************************************************
-* Copyright (C) 2023 Microchip Technology Inc. and its subsidiaries.
+* Copyright (C) 2018 Microchip Technology Inc. and its subsidiaries.
 *
 * Subject to your compliance with these terms, you may use Microchip software
 * and any derivatives exclusively with Microchip products. It is your
@@ -59,7 +59,8 @@ void NVIC_Initialize( void );
 void NVIC_INT_Enable( void );
 bool NVIC_INT_Disable( void );
 void NVIC_INT_Restore( bool state );
-
+bool NVIC_INT_SourceDisable( IRQn_Type source );
+void NVIC_INT_SourceRestore( IRQn_Type source, bool status );
 
 // DOM-IGNORE-BEGIN
 #ifdef __cplusplus  // Provide C++ Compatibility

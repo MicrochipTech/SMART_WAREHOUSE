@@ -111,7 +111,7 @@ typedef enum APP_MsgId_T
 typedef struct APP_Msg_T
 {
     uint8_t msgId;
-    uint8_t msgData[127];
+    uint8_t msgData[256];
 } APP_Msg_T;
 
 // *****************************************************************************

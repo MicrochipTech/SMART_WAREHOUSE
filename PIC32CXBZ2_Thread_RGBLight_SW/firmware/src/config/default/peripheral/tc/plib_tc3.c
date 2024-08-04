@@ -87,6 +87,8 @@ void TC3_CompareInitialize( void )
     TC3_REGS->COUNT16.TC_WAVE = (uint8_t)TC_WAVE_WAVEGEN_NPWM;
 
 
+    /* Configure timer one shot mode & direction */
+    TC3_REGS->COUNT16.TC_DRVCTRL = (uint8_t)(TC_DRVCTRL_INVEN0_Msk);
     TC3_REGS->COUNT16.TC_CC[0] = 24U;
     TC3_REGS->COUNT16.TC_CC[1] = 24U;
 

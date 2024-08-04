@@ -49,7 +49,6 @@
 #include <stddef.h>
 #include <stdbool.h>
 #include "crypto/crypto.h"
-#include "peripheral/sercom/i2c_master/plib_sercom2_i2c_master.h"
 #include "peripheral/evsys/plib_evsys.h"
 #include "peripheral/sercom/usart/plib_sercom0_usart.h"
 /*******************************************************************************
@@ -84,9 +83,10 @@
 #include "peripheral/rcon/plib_rcon.h"
 #include "system/time/sys_time.h"
 #include "peripheral/nvm/plib_nvm.h"
-#include "wolfssl/wolfcrypt/port/pic32/crypt_wolfcryptcb.h"
 #include "platform-pic32cx.h"
 #include "openthread-system.h"
+#include "ot_tasks.h"
+#include "wolfssl/wolfcrypt/port/pic32/crypt_wolfcryptcb.h"
 #include "driver/IEEE_802154_PHY/phy/inc/phy.h"
 #include "driver/IEEE_802154_PHY/phy/inc/phy_tasks.h"
 #include "peripheral/trng/plib_trng.h"

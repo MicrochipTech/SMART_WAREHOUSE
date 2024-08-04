@@ -44,13 +44,18 @@
 // *****************************************************************************
 // *****************************************************************************
 // Section: Included Files
+#include <string.h>
 #include "definitions.h"
+#include "configuration.h"
 #include "openthread/ip6.h"
 #include "configuration.h"
 #include "openthread/dataset.h"
 #include "openthread/dataset_ftd.h"
 #include "openthread/instance.h"
 #include "openthread/thread.h"
+#include "openthread/udp.h"
+#include "openthread/message.h"
+#include "openthread/error.h"
 
 // *****************************************************************************
 // *****************************************************************************
@@ -76,6 +81,7 @@
 #define MAX_DEMO_NAME_SIZE      (20)
 #define MAX_DEMO_MSG_SIZE       (30)
 
+#define UDP_PORT_NO    2345
 
 typedef struct demoDevice_t{
 	otIp6Address devAddr; ///< The IPv6 address.
@@ -191,6 +197,13 @@ void printIpv6Address(void);
 void threadSendIPAddr(void);
 
 void threadReceiveData(const otMessageInfo *aMessageInfo, uint16_t length, uint8_t *msgPayload);
+
+void threadUdpOpen();
+void threadUdpSend(otIp6Address *mPeerAddr, uint8_t msgLen, uint8_t* msg);
+void threadUdpBind();
+void threadUdpReceiveCb(void *aContext, otMessage *aMessage, const otMessageInfo *aMessageInfo);
+
+
 
 #endif //_THREAD_DEMO_H
 /*******************************************************************************

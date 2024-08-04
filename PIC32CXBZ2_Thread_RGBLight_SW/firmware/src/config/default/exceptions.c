@@ -59,7 +59,7 @@
 /* Brief default interrupt handlers for core IRQs.*/
 void __attribute__((noreturn, weak)) NonMaskableInt_Handler(void)
 {
-//    RGB_LED_RED_On();
+    RGB_LED_RED_On();
     asm("nop");
 #if defined(__DEBUG) || defined(__DEBUG_D) && defined(__XC32)
     __builtin_software_breakpoint();
@@ -71,7 +71,7 @@ void __attribute__((noreturn, weak)) NonMaskableInt_Handler(void)
  
 void __attribute__((noreturn, weak)) HardFault_Handler(void)
 {
-//    RGB_LED_RED_On();
+    RGB_LED_RED_On();
     asm("nop");
 #if defined(__DEBUG) || defined(__DEBUG_D) && defined(__XC32)
    __builtin_software_breakpoint();
@@ -83,7 +83,7 @@ void __attribute__((noreturn, weak)) HardFault_Handler(void)
 
 void __attribute__((noreturn, weak)) DebugMonitor_Handler(void)
 {
-//    RGB_LED_RED_On();
+    RGB_LED_RED_On();
     asm("nop");
 #if defined(__DEBUG) || defined(__DEBUG_D) && defined(__XC32)
    __builtin_software_breakpoint();
@@ -95,7 +95,7 @@ void __attribute__((noreturn, weak)) DebugMonitor_Handler(void)
 
 void __attribute__((noreturn, weak)) MemoryManagement_Handler(void)
 {
-//    RGB_LED_RED_On();
+    RGB_LED_RED_On();
     asm("nop");
 #if defined(__DEBUG) || defined(__DEBUG_D) && defined(__XC32)
    __builtin_software_breakpoint();
@@ -107,7 +107,7 @@ void __attribute__((noreturn, weak)) MemoryManagement_Handler(void)
 
 void __attribute__((noreturn, weak)) BusFault_Handler(void)
 {
-//    RGB_LED_RED_On();
+    RGB_LED_RED_On();
     asm("nop");
 #if defined(__DEBUG) || defined(__DEBUG_D) && defined(__XC32)
    __builtin_software_breakpoint();
@@ -119,7 +119,7 @@ void __attribute__((noreturn, weak)) BusFault_Handler(void)
 
 void __attribute__((noreturn, weak)) UsageFault_Handler(void)
 {
-//    RGB_LED_RED_On();
+    RGB_LED_RED_On();
     asm("nop");
 #if defined(__DEBUG) || defined(__DEBUG_D) && defined(__XC32)
    __builtin_software_breakpoint();

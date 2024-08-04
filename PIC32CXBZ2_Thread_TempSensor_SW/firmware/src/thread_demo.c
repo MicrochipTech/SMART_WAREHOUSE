@@ -57,7 +57,6 @@
 #include "utils/uart.h"
 #include "timers.h"
 #include "thread_demo.h"
-#include "udp_demo.h"
 
 #include <assert.h>
 
@@ -76,7 +75,7 @@ bool dataInitialized = false;
 bool deviceStateUpdated = false;
 
 void threadTmrCb(TimerHandle_t pxTimer);
-
+volatile float temp_float;
 #define TOTAL_DEMO_DEVICES              (10)
 
 void otHandleStateChangecb(otChangedFlags aFlags, void *aContext)
@@ -123,22 +122,26 @@ void threadTmrCb(TimerHandle_t pxTimer)
 extern devMsgType_t demoMsg;
 extern float temp_demo_value;
 extern otIp6Address gatewayAddr;
+extern devTypeThermostatSensorSet_t tempSensor;
+
 void threadSendIPAddr(void)
 {
     if(0 != gatewayAddr.mFields.m32[0])
     {
         devTypeThermostatSensorReport_t tempReport;
-        //tempReport.temperature = temperature_value;
-        if(temp_demo_value > 35.0)
-        {
-            temp_demo_value = 25.0;
-        }
-        tempReport.temperature = temp_demo_value;
-        temp_demo_value += 0.1;
+        tempReport.temperature = temp_float;
         demoMsg.msgType = MSG_TYPE_THERMO_SENSOR_REPORT;
         memcpy(&demoMsg.msg, &tempReport, sizeof(devTypeThermostatSensorReport_t));
         threadUdpSend(&gatewayAddr, 4 + sizeof(devTypeThermostatSensorReport_t), (uint8_t *)&demoMsg);
-        app_printf("App Log:Temp Report\r\n");
+        app_printf("App Log:Temp Report %0.2f\r\n", temp_float);
+    }
+    if(0 != tempSensor.reportedThermostatHVAC.mFields.m32[0])
+    {
+        devTypeThermostatSensorReport_t sensor;
+        sensor.temperature = temp_float;
+        demoMsg.msgType = MSG_TYPE_THERMO_SENSOR_REPORT;
+        memcpy(&demoMsg.msg, &sensor, sizeof(devTypeThermostatSensorReport_t));
+        threadUdpSend(&tempSensor.reportedThermostatHVAC, 4 + sizeof(devTypeThermostatSensorReport_t), (uint8_t *)&demoMsg);
     }
 }
 

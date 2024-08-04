@@ -57,7 +57,8 @@
 #include "utils/uart.h"
 #include "timers.h"
 #include "thread_demo.h"
-#include "udp_demo.h"
+
+#include "rgb_led/rgb_led.h"
 
 #include <assert.h>
 
@@ -76,8 +77,10 @@ bool dataInitialized = false;
 bool deviceStateUpdated = false;
 
 void threadTmrCb(TimerHandle_t pxTimer);
-extern volatile uint16_t temperature_value;
+
 #define TOTAL_DEMO_DEVICES              (10)
+
+extern devTypeRGBLight_t rgbLED;
 
 void otHandleStateChangecb(otChangedFlags aFlags, void *aContext)
 {
@@ -123,23 +126,16 @@ void threadTmrCb(TimerHandle_t pxTimer)
 extern devMsgType_t demoMsg;
 extern float temp_demo_value;
 extern otIp6Address gatewayAddr;
-void threadSendIPAddr(void)
+
+void threadSendPeriodicMsg(void)
 {
-//    if(0 != gatewayAddr.mFields.m32[0])
-//    {
-//        devTypeThermostatSensorReport_t tempReport;
-//        tempReport.temperature = temperature_value;
-//        //if(temp_demo_value > 35.0)
-//        //{
-//        //    temp_demo_value = 25.0;
-//        //}
-//        //tempReport.temperature = temp_demo_value;
-//        //temp_demo_value += 0.1;
-//        demoMsg.msgType = MSG_TYPE_THERMO_SENSOR_REPORT;
-//        memcpy(&demoMsg.msg, &tempReport, sizeof(devTypeThermostatSensorReport_t));
-//        threadUdpSend(&gatewayAddr, 4 + sizeof(devTypeThermostatSensorReport_t), (uint8_t *)&demoMsg);
-//        app_printf("App Log:Temp Report\r\n");
-//    }
+    if(0 != gatewayAddr.mFields.m32[0])
+    {
+        demoMsg.msgType = MSG_TYPE_LIGHT_REPORT;
+
+        memcpy(&demoMsg.msg, &rgbLED, sizeof(devTypeRGBLight_t));
+        threadUdpSend(&gatewayAddr, sizeof(devMsgType_t), (uint8_t *)&demoMsg);
+    }
 }
 
 void threadConfigNwParameters()
@@ -229,7 +225,7 @@ void threadHandleStateChange(void)
         if(!dataInitialized)
         {
             //if MTD, Start timer to send periodic data, IF FTD, do nothing.
-            app_printf("App_Log: Device State Child. Start app timer\n");
+            app_printf("App_Log: Device State Child. Start app timer\r\n");
             xTimerStart(sAppTimerHandle, 0);
             threadInitData();
             dataInitialized = true;
@@ -243,7 +239,7 @@ void threadHandleStateChange(void)
         if(!dataInitialized)
         {            
             //Start timer to send periodic data 
-            app_printf("App_Log: Device State Router. Start app timer\n");
+            app_printf("App_Log: Device State Router. Start app timer\r\n");
             xTimerStart(sAppTimerHandle, 0);
             threadInitData();
             dataInitialized = true;
