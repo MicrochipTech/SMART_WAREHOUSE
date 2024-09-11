@@ -1,4 +1,4 @@
-# SMART WAREHOUSE
+# SMART WAREHOUSE/SMART BUILDING
 
 <img src="docs/IoT-Made-Easy-Logo.png" width=100>
 
