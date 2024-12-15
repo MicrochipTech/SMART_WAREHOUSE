@@ -18,7 +18,7 @@
 
 //DOM-IGNORE-BEGIN
 /*******************************************************************************
-* Copyright (C) 2023 Microchip Technology Inc. and its subsidiaries.
+* Copyright (C) 2019 Microchip Technology Inc. and its subsidiaries.
 *
 * Subject to your compliance with these terms, you may use Microchip software
 * and any derivatives exclusively with Microchip products. It is your
@@ -66,7 +66,7 @@ void GPIO_Initialize ( void )
     /* PORTB Initialization */
     GPIOB_REGS->GPIO_LAT = 0x0U; /* Initial Latch Value */
     GPIOB_REGS->GPIO_TRISCLR = 0xa9U; /* Direction Control */
-    GPIOB_REGS->GPIO_ANSELCLR = 0xb9U; /* Digital Mode Enable */
+    GPIOB_REGS->GPIO_ANSELCLR = 0xbbU; /* Digital Mode Enable */
     GPIOB_REGS->GPIO_CNPUSET = 0x10U; /* Pull-Up Enable */
 
 

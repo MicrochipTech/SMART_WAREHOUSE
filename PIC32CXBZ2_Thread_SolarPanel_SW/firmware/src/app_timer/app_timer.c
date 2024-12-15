@@ -164,7 +164,7 @@ static void APP_TIMER_PeriodicTimerExpiredHandle(TimerHandle_t xTimer)
         
         case APP_TIMER_ID_1:
         {
-           appMsg.msgId = APP_PWM_SERVO;
+            //appMsg.msgId = APP_TIMER_ID_1_MSG;
         }
         break;
         case APP_TIMER_ID_2:

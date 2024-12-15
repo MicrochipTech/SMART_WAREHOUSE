@@ -44,13 +44,19 @@
 // *****************************************************************************
 // *****************************************************************************
 // Section: Included Files
+#include <string.h>
 #include "definitions.h"
+#include "configuration.h"
 #include "openthread/ip6.h"
 #include "configuration.h"
 #include "openthread/dataset.h"
 #include "openthread/dataset_ftd.h"
 #include "openthread/instance.h"
 #include "openthread/thread.h"
+#include "openthread/udp.h"
+#include "openthread/message.h"
+#include "openthread/error.h"
+
 
 // *****************************************************************************
 // *****************************************************************************
@@ -63,19 +69,16 @@
 #define APP_BROADCAST_TIMER_INTERVAL_MS   10000
 
 #define PANID           0xDADA
-//#define EXD_PANID        {0x00,0x01,0x02,0x03,0x4,0x05,0x06,0x07}
 #define EXD_PANID       {0x4D,0x43,0x48,0x50,0x54,0x45,0x43,0x48}
 #define NWK_NAME        "MCHP_THREAD" // max charin nwk name <= 16
 #define CHANNEL         21LU
-//#define CHANNEL_MASK    (otChannelMask)0x7fff800
-//#define NW_KEY          {0x11,0x11,0x22,0x33,0x44,0x55,0x66,0x77,0x88,0x99,0xaa,0xbb,0xcc,0xdd,0xee,0xff}
 #define NW_KEY          {0x73,0x6d,0x61,0x72,0x74,0x77,0x61,0x72,0x65,0x68,0x6f,0x75,0x73,0x65,0x32,0x34}
-//#define NW_KEY            {0x61,0x69,0x6f,0x74,0x5f,0x69,0x6e,0x64,0x75,0x73,0x74,0x72,0x79,0x34,0x2e,0x30}
 #define ML_PREFIX       {0xfd,0x00,0x00,0x00,0xfb,0x01,0x00,0x01}
 
 #define MAX_DEMO_NAME_SIZE      (20)
 #define MAX_DEMO_MSG_SIZE       (30)
 
+#define UDP_PORT_NO    2345
 
 typedef struct demoDevice_t{
 	otIp6Address devAddr; ///< The IPv6 address.
@@ -186,9 +189,15 @@ void threadHandleStateChange(void);
 void threadInitData();
 void threadSenddata();
 void printIpv6Address(void);
-void threadSendIPAddr(void);
+void threadSendPeriodicMsg(void);
+
 
 void threadReceiveData(const otMessageInfo *aMessageInfo, uint16_t length, uint8_t *msgPayload);
+
+void threadUdpOpen();
+void threadUdpSend(otIp6Address *mPeerAddr, uint8_t msgLen, uint8_t* msg);
+void threadUdpBind();
+void threadUdpReceiveCb(void *aContext, otMessage *aMessage, const otMessageInfo *aMessageInfo);
 
 #endif //_THREAD_DEMO_H
 /*******************************************************************************

@@ -58,16 +58,15 @@
 #include "thread_demo.h"
 #include "app_tempHum13/app_temphum13.h"
 
-
 // *****************************************************************************
 // *****************************************************************************
 // Section: Global Data Definitions
 // *****************************************************************************
 // *****************************************************************************
 
-#define APP_TEMP_TIMER_INTERVAL_MS     15000
+#define APP_TEMP_TIMER_INTERVAL_MS      5000
 
-
+#define ALIVE_LED_BLINK_TIME_MS         (500)
 // *****************************************************************************
 /* Application Data
 
@@ -96,6 +95,188 @@ void tempTmrCb(TimerHandle_t pxTimer);
 
 /* TODO:  Add any necessary callback functions.
 */
+#define LED_BLINK_TIME_MS               (150)
+
+otIp6Address gatewayAddr;
+extern devDetails_t threadDevice;
+extern otInstance *instance;
+otUdpSocket aSocket;
+
+/* The timer created for LED that blinks when it receives the data from the Leader */
+static TimerHandle_t Data_sent_LED_Timer_Handle = NULL;
+/* The timer created for LED that blinks when it sends data to the Leader*/
+static TimerHandle_t Data_receive_LED_Timer_Handle = NULL;
+/* The timer created for LED that blinks to show heartbeat of MCU*/
+static TimerHandle_t Alive_LED_Timer_Handle = NULL;
+
+volatile float temp_float;
+
+devTypeThermostatSensorSet_t tempSensor;
+
+static void Data_sent_LED_Timer_Callback(TimerHandle_t xTimer)
+{
+    RGB_LED_GREEN_Off();    
+    /* Keep compiler happy. */
+     (void)xTimer;    
+}
+static void Data_receive_LED_Timer_Callback(TimerHandle_t xTimer)
+{
+    RGB_LED_BLUE_Off();
+    /* Keep compiler happy. */
+     (void)xTimer;    
+}
+static void Alive_LED_Timer_Callback(TimerHandle_t xTimer)
+{
+    USER_LED_Toggle();
+    /* Keep compiler happy. */
+     (void)xTimer;    
+}
+
+
+// *****************************************************************************
+// *****************************************************************************
+float temp_demo_value = 25.0;
+devMsgType_t demoMsg;
+
+void threadReceiveData(const otMessageInfo *aMessageInfo, uint16_t length, uint8_t *msgPayload)
+{
+    char string[OT_IP6_ADDRESS_STRING_SIZE];
+    otIp6AddressToString(&(aMessageInfo->mPeerAddr), string, OT_IP6_ADDRESS_STRING_SIZE);
+     
+    
+    USER_LED_Off();
+    if( xTimerIsTimerActive( Data_receive_LED_Timer_Handle ) != pdFALSE )
+    {
+        /* xTimer is active, do something. */
+        (void)xTimerStop( Data_receive_LED_Timer_Handle, pdMS_TO_TICKS(0) );
+    }
+    (void)xTimerStart(Data_receive_LED_Timer_Handle,pdMS_TO_TICKS(0));
+    
+    devMsgType_t *rxMsg;
+    rxMsg = (devMsgType_t *)msgPayload; 
+    
+    
+    if(MSG_TYPE_GATEWAY_DISCOVER_REQ == rxMsg->msgType)
+    {
+        memcpy(&gatewayAddr, rxMsg->msg, OT_IP6_ADDRESS_SIZE);
+        demoMsg.msgType = MSG_TYPE_GATEWAY_DISCOVER_RESP;
+        memcpy(&demoMsg.msg, &threadDevice, sizeof(devDetails_t));
+        threadUdpSend(&gatewayAddr, sizeof(devMsgType_t), (uint8_t *)&demoMsg);
+    }
+    else if(MSG_TYPE_THERMO_SENSOR_GET == rxMsg->msgType)
+    {
+        devTypeThermostatSensorReport_t tempReport;
+        tempReport.temperature = temp_float;
+        demoMsg.msgType = MSG_TYPE_THERMO_SENSOR_REPORT;
+        memcpy(&demoMsg.msg, &tempReport, sizeof(devTypeThermostatSensorReport_t));
+        threadUdpSend(&gatewayAddr, 4 + sizeof(devTypeThermostatSensorReport_t), (uint8_t *)&demoMsg);
+        app_printf("App Log:Temp Report\r\n");
+    }
+    else if(MSG_TYPE_THERMO_SENSOR_SET == rxMsg->msgType)
+    {
+        devTypeThermostatSensorSet_t *tempSensorSet = (devTypeThermostatSensorSet_t *)rxMsg->msg;
+        memcpy(&tempSensor.reportedThermostatHVAC, &tempSensorSet->reportedThermostatHVAC, OT_IP6_ADDRESS_SIZE);
+        tempSensor.reportInterval = tempSensorSet->reportInterval;        
+        app_printf("App Log:HVAC address set. Interval - %d secs\r\n", tempSensor.reportInterval);
+    }
+}
+
+void otUdpReceiveCb(void *aContext, otMessage *aMessage, const otMessageInfo *aMessageInfo)
+{
+    APP_Msg_T appMsg_otUdpReceiveCb;
+    memset(&appMsg_otUdpReceiveCb, 0, sizeof(APP_Msg_T));
+    appMsg_otUdpReceiveCb.msgId = APP_MSG_OT_RECV_CB;
+    
+    uint16_t aMessageLen = otMessageGetLength(aMessage) - otMessageGetOffset(aMessage);
+    uint8_t aMessageInfoLen = sizeof(otMessageInfo);
+    
+    appMsg_otUdpReceiveCb.msgData[0] = aMessageInfoLen;
+    memcpy(&appMsg_otUdpReceiveCb.msgData[MESSAGE_INFO_INDEX], aMessageInfo, sizeof(otMessageInfo));
+
+    appMsg_otUdpReceiveCb.msgData[aMessageInfoLen + MESSAGE_INFO_INDEX + 1] = (uint8_t)aMessageLen;
+
+    otMessageRead(aMessage,otMessageGetOffset(aMessage), &appMsg_otUdpReceiveCb.msgData[aMessageInfoLen + MESSAGE_INFO_INDEX + 2], aMessageLen);
+    
+    OSAL_QUEUE_SendISR(&appData.appQueue, &appMsg_otUdpReceiveCb);
+}
+
+
+void threadUdpOpen()
+{
+   otError err;
+   app_printf("App_log: UDP Open\n");
+   err = otUdpOpen(instance, &aSocket, otUdpReceiveCb, NULL);
+   if (err != OT_ERROR_NONE)
+   {
+      app_printf("App_Err: UDP Open failed\n");
+       //print error code
+       assert(err);
+   }
+    /* The timer created for LED that blinks when it receives the data from the Leader */
+    Data_sent_LED_Timer_Handle = xTimerCreate("Milli_Timer",pdMS_TO_TICKS(LED_BLINK_TIME_MS),pdFALSE, ( void * ) 0, Data_sent_LED_Timer_Callback);
+    /* The timer created for LED that blinks when it sends data to the Leader*/
+    Data_receive_LED_Timer_Handle = xTimerCreate("Milli_Timer",pdMS_TO_TICKS(LED_BLINK_TIME_MS),pdFALSE, ( void * ) 0, Data_receive_LED_Timer_Callback);
+}
+
+void threadUdpSend(otIp6Address *mPeerAddr, uint8_t msgLen, uint8_t* msg)
+{
+    otError err = OT_ERROR_NONE;
+    otMessageInfo msgInfo;
+    const otIp6Address *mSockAddr;
+    memset(&msgInfo,0,sizeof(msgInfo));
+//    otIp6AddressFromString("ff03::1",&msgInfo.mPeerAddr);
+    mSockAddr = otThreadGetMeshLocalEid(instance);
+//    mPeerAddr = otThreadGetRealmLocalAllThreadNodesMulticastAddress(instance);
+    memcpy(&msgInfo.mSockAddr, mSockAddr, OT_IP6_ADDRESS_SIZE);
+    memcpy(&msgInfo.mPeerAddr, mPeerAddr, OT_IP6_ADDRESS_SIZE);
+    
+    msgInfo.mPeerPort = UDP_PORT_NO;
+    
+    do {
+        otMessage *udp_msg = otUdpNewMessage(instance,NULL);
+        err = otMessageAppend(udp_msg,msg,msgLen);
+        if(err != OT_ERROR_NONE)
+        {
+            app_printf("App_Err: UDP Message Add fail\n");
+            break;
+        }
+        
+        err = otUdpSend(instance,&aSocket,udp_msg,&msgInfo);
+        if(err != OT_ERROR_NONE)
+        {
+            app_printf("App_Err: UDP Send fail\n");
+            break;
+        }
+        app_printf("App_Log: UDP Sent data: %d\r\n",err);
+        RGB_LED_GREEN_On();
+        if( xTimerIsTimerActive( Data_sent_LED_Timer_Handle ) != pdFALSE )
+        {
+            /* xTimer is active, do something. */
+            (void)xTimerStop( Data_sent_LED_Timer_Handle, pdMS_TO_TICKS(0) );
+        }
+        (void)xTimerStart(Data_sent_LED_Timer_Handle,pdMS_TO_TICKS(0));
+
+    }while(false);
+    
+}
+
+
+void threadUdpBind()
+{
+   otError err;
+   otSockAddr addr;
+   memset(&addr,0,sizeof(otSockAddr));
+   addr.mPort = UDP_PORT_NO;
+   do
+   {
+        err = otUdpBind(instance, &aSocket, &addr, OT_NETIF_THREAD);
+        if (err != OT_ERROR_NONE) {
+            app_printf("App_Err: UDP Bind fail Err:%d\n",err);
+            break;
+        }
+        app_printf("App_Log: UDP Listening on port %d\n",UDP_PORT_NO);
+   }while(false);
+}
 
 // *****************************************************************************
 // *****************************************************************************
@@ -109,7 +290,7 @@ void tempTmrCb(TimerHandle_t pxTimer);
 
 devDetails_t threadDevice;
 volatile uint16_t temperature_value;
-
+volatile float temp_float;
 // *****************************************************************************
 // *****************************************************************************
 // Section: Application Initialization and State Machine Functions
@@ -119,6 +300,7 @@ volatile uint16_t temperature_value;
 void tempTmrCb(TimerHandle_t pxTimer)
 {
     temperature_value = temphum13_get_temperature();
+    temp_float = ((float)temperature_value / (float)100);
 }
 
 void printIpv6Address(void)
@@ -160,7 +342,8 @@ void APP_Initialize ( void )
     /* TODO: Initialize your application's state machine and other
      * parameters.
      */
-    
+    Alive_LED_Timer_Handle = xTimerCreate("Milli_Timer",pdMS_TO_TICKS(ALIVE_LED_BLINK_TIME_MS),pdTRUE, ( void * ) 0, Alive_LED_Timer_Callback);
+    (void)xTimerStart(Alive_LED_Timer_Handle,pdMS_TO_TICKS(ALIVE_LED_BLINK_TIME_MS));
 }
 
 

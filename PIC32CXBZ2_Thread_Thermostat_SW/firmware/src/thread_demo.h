@@ -44,19 +44,24 @@
 // *****************************************************************************
 // *****************************************************************************
 // Section: Included Files
+#include <string.h>
 #include "definitions.h"
+#include "configuration.h"
 #include "openthread/ip6.h"
 #include "configuration.h"
 #include "openthread/dataset.h"
 #include "openthread/dataset_ftd.h"
 #include "openthread/instance.h"
 #include "openthread/thread.h"
+#include "openthread/udp.h"
+#include "openthread/message.h"
+#include "openthread/error.h"
 
 // *****************************************************************************
 // *****************************************************************************
 #define app_printf(fmt, ...)                 SYS_CONSOLE_Print(SYS_CONSOLE_DEFAULT_INSTANCE, fmt, ##__VA_ARGS__)
 
-#define DEMO_DEVICE_NAME ("TEMPERATURE SENSOR")
+#define DEMO_DEVICE_NAME ("HVAC")
 
 #define DEVICE_AS_LEADER         0
 
@@ -124,6 +129,10 @@ typedef struct devMsgType_t {
 #define MSG_TYPE_ACCESS_CONTROL_GET    (0x51)
 #define MSG_TYPE_ACCESS_CONTROL_REPORT (0x52)
 
+
+#define UDP_PORT_NO    2345
+
+
 typedef struct devDetails_t {
     uint8_t devType;
     uint8_t devNameSize;
@@ -188,7 +197,10 @@ void printIpv6Address(void);
 void threadSendIPAddr(void);
 
 void threadReceiveData(const otMessageInfo *aMessageInfo, uint16_t length, uint8_t *msgPayload);
-
+void threadUdpOpen();
+void threadUdpSend(otIp6Address *mPeerAddr, uint8_t msgLen, uint8_t* msg);
+void threadUdpBind();
+void threadUdpReceiveCb(void *aContext, otMessage *aMessage, const otMessageInfo *aMessageInfo);
 #endif //_THREAD_DEMO_H
 /*******************************************************************************
  End of File

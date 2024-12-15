@@ -481,7 +481,6 @@ void SYS_Initialize ( void* data )
 
 
 
-
     /* MISRA C-2012 Rule 11.3, 11.8 deviated below. Deviation record ID -  
     H3_MISRAC_2012_R_11_3_DR_1 & H3_MISRAC_2012_R_11_8_DR_1*/
         
@@ -493,7 +492,6 @@ void SYS_Initialize ( void* data )
         sysObj.sysConsole0 = SYS_CONSOLE_Initialize(SYS_CONSOLE_INDEX_0, (SYS_MODULE_INIT *)&sysConsole0Init);
    /* MISRAC 2012 deviation block end */
 
-    CRYPT_WCCB_Initialize();
     /* Initialization for IEEE_802154_PHY */
     
     PHY_Init();
@@ -507,6 +505,7 @@ void SYS_Initialize ( void* data )
     /* Creation of openthread Task Queue */
     OSAL_QUEUE_Create(&OTQueue, OT_TASK_QUEUE_SIZE, sizeof(OT_Msg_T));
 
+    CRYPT_WCCB_Initialize();
 
     /* MISRAC 2012 deviation block end */
     APP_Initialize();

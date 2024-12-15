@@ -66,7 +66,6 @@
             <logicalFolder name="thread" displayName="thread" projectFiles="true">
               <logicalFolder name="inc" displayName="inc" projectFiles="true">
                 <logicalFolder name="crypto" displayName="crypto" projectFiles="true">
-                  <itemPath>../src/config/default/driver/thread/inc/crypto/aes_alt.h</itemPath>
                   <itemPath>../src/config/default/driver/thread/inc/crypto/pic32cx-mbedtls-config.h</itemPath>
                   <itemPath>../src/config/default/driver/thread/inc/crypto/check_config.h</itemPath>
                 </logicalFolder>
@@ -77,6 +76,7 @@
                 <itemPath>../src/config/default/driver/thread/inc/user_row.h</itemPath>
                 <itemPath>../src/config/default/driver/thread/inc/platform-pic32cx.h</itemPath>
                 <itemPath>../src/config/default/driver/thread/inc/openthread-core-pic32cx-config.h</itemPath>
+                <itemPath>../src/config/default/driver/thread/inc/ot_tasks.h</itemPath>
               </logicalFolder>
               <logicalFolder name="openthread" displayName="openthread" projectFiles="true">
                 <logicalFolder name="examples" displayName="examples" projectFiles="true">
@@ -117,6 +117,8 @@
                       <itemPath>../src/config/default/driver/thread/openthread/include/openthread/platform/otns.h</itemPath>
                       <itemPath>../src/config/default/driver/thread/openthread/include/openthread/platform/messagepool.h</itemPath>
                       <itemPath>../src/config/default/driver/thread/openthread/include/openthread/platform/infra_if.h</itemPath>
+                      <itemPath>../src/config/default/driver/thread/openthread/include/openthread/platform/border_routing.h</itemPath>
+                      <itemPath>../src/config/default/driver/thread/openthread/include/openthread/platform/dns.h</itemPath>
                     </logicalFolder>
                     <itemPath>../src/config/default/driver/thread/openthread/include/openthread/random_noncrypto.h</itemPath>
                     <itemPath>../src/config/default/driver/thread/openthread/include/openthread/random_crypto.h</itemPath>
@@ -174,6 +176,8 @@
                     <itemPath>../src/config/default/driver/thread/openthread/include/openthread/link_raw.h</itemPath>
                     <itemPath>../src/config/default/driver/thread/openthread/include/openthread/nat64.h</itemPath>
                     <itemPath>../src/config/default/driver/thread/openthread/include/openthread/backbone_router_ftd.h</itemPath>
+                    <itemPath>../src/config/default/driver/thread/openthread/include/openthread/mesh_diag.h</itemPath>
+                    <itemPath>../src/config/default/driver/thread/openthread/include/openthread/radio_stats.h</itemPath>
                   </logicalFolder>
                 </logicalFolder>
                 <logicalFolder name="src" displayName="src" projectFiles="true">
@@ -254,6 +258,7 @@
                       <itemPath>../src/config/default/driver/thread/openthread/src/core/common/settings.hpp</itemPath>
                       <itemPath>../src/config/default/driver/thread/openthread/src/core/common/frame_builder.hpp</itemPath>
                       <itemPath>../src/config/default/driver/thread/openthread/src/core/common/frame_data.hpp</itemPath>
+                      <itemPath>../src/config/default/driver/thread/openthread/src/core/common/preference.hpp</itemPath>
                     </logicalFolder>
                     <logicalFolder name="config" displayName="config" projectFiles="true">
                       <itemPath>../src/config/default/driver/thread/openthread/src/core/config/dataset_updater.h</itemPath>
@@ -297,6 +302,9 @@
                       <itemPath>../src/config/default/driver/thread/openthread/src/core/config/platform.h</itemPath>
                       <itemPath>../src/config/default/driver/thread/openthread/src/core/config/channel_monitor.h</itemPath>
                       <itemPath>../src/config/default/driver/thread/openthread/src/core/config/child_supervision.h</itemPath>
+                      <itemPath>../src/config/default/driver/thread/openthread/src/core/config/mesh_diag.h</itemPath>
+                      <itemPath>../src/config/default/driver/thread/openthread/src/core/config/mesh_forwarder.h</itemPath>
+                      <itemPath>../src/config/default/driver/thread/openthread/src/core/config/network_diagnostic.h</itemPath>
                     </logicalFolder>
                     <logicalFolder name="crypto" displayName="crypto" projectFiles="true">
                       <itemPath>../src/config/default/driver/thread/openthread/src/core/crypto/context_size.hpp</itemPath>
@@ -429,6 +437,7 @@
                       <itemPath>../src/config/default/driver/thread/openthread/src/core/thread/lowpan.hpp</itemPath>
                       <itemPath>../src/config/default/driver/thread/openthread/src/core/thread/mlr_manager.hpp</itemPath>
                       <itemPath>../src/config/default/driver/thread/openthread/src/core/thread/network_data_leader_ftd.hpp</itemPath>
+                      <itemPath>../src/config/default/driver/thread/openthread/src/core/thread/child_supervision.hpp</itemPath>
                     </logicalFolder>
                     <logicalFolder name="utils" displayName="utils" projectFiles="true">
                       <itemPath>../src/config/default/driver/thread/openthread/src/core/utils/heap.hpp</itemPath>
@@ -436,7 +445,6 @@
                       <itemPath>../src/config/default/driver/thread/openthread/src/core/utils/power_calibration.hpp</itemPath>
                       <itemPath>../src/config/default/driver/thread/openthread/src/core/utils/otns.hpp</itemPath>
                       <itemPath>../src/config/default/driver/thread/openthread/src/core/utils/channel_manager.hpp</itemPath>
-                      <itemPath>../src/config/default/driver/thread/openthread/src/core/utils/child_supervision.hpp</itemPath>
                       <itemPath>../src/config/default/driver/thread/openthread/src/core/utils/history_tracker.hpp</itemPath>
                       <itemPath>../src/config/default/driver/thread/openthread/src/core/utils/jam_detector.hpp</itemPath>
                       <itemPath>../src/config/default/driver/thread/openthread/src/core/utils/flash.hpp</itemPath>
@@ -444,6 +452,7 @@
                       <itemPath>../src/config/default/driver/thread/openthread/src/core/utils/channel_monitor.hpp</itemPath>
                       <itemPath>../src/config/default/driver/thread/openthread/src/core/utils/slaac_address.hpp</itemPath>
                       <itemPath>../src/config/default/driver/thread/openthread/src/core/utils/parse_cmdline.hpp</itemPath>
+                      <itemPath>../src/config/default/driver/thread/openthread/src/core/utils/mesh_diag.hpp</itemPath>
                     </logicalFolder>
                     <itemPath>../src/config/default/driver/thread/openthread/src/core/openthread-core-config.h</itemPath>
                   </logicalFolder>
@@ -976,7 +985,12 @@
       <itemPath>../src/app_idle_task.h</itemPath>
       <itemPath>../src/app.h</itemPath>
       <itemPath>../src/thread_demo.h</itemPath>
-      <itemPath>../src/udp_demo.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="true">
+      <itemPath>Makefile</itemPath>
+      <itemPath>PIC32CXBZ2_Thread_TempSensor_SW.mc3</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -1098,6 +1112,8 @@
                       <itemPath>../src/config/default/driver/thread/openthread/src/core/api/server_api.cpp</itemPath>
                       <itemPath>../src/config/default/driver/thread/openthread/src/core/api/channel_monitor_api.cpp</itemPath>
                       <itemPath>../src/config/default/driver/thread/openthread/src/core/api/ip6_api.cpp</itemPath>
+                      <itemPath>../src/config/default/driver/thread/openthread/src/core/api/radio_stats_api.cpp</itemPath>
+                      <itemPath>../src/config/default/driver/thread/openthread/src/core/api/mesh_diag_api.cpp</itemPath>
                     </logicalFolder>
                     <logicalFolder name="backbone_router"
                                    displayName="backbone_router"
@@ -1138,6 +1154,7 @@
                       <itemPath>../src/config/default/driver/thread/openthread/src/core/common/trickle_timer.cpp</itemPath>
                       <itemPath>../src/config/default/driver/thread/openthread/src/core/common/heap_data.cpp</itemPath>
                       <itemPath>../src/config/default/driver/thread/openthread/src/core/common/message.cpp</itemPath>
+                      <itemPath>../src/config/default/driver/thread/openthread/src/core/common/preference.cpp</itemPath>
                     </logicalFolder>
                     <logicalFolder name="crypto" displayName="crypto" projectFiles="true">
                       <itemPath>../src/config/default/driver/thread/openthread/src/core/crypto/hmac_sha256.cpp</itemPath>
@@ -1212,6 +1229,7 @@
                       <itemPath>../src/config/default/driver/thread/openthread/src/core/net/checksum.cpp</itemPath>
                       <itemPath>../src/config/default/driver/thread/openthread/src/core/net/ip4_types.cpp</itemPath>
                       <itemPath>../src/config/default/driver/thread/openthread/src/core/net/dns_types.cpp</itemPath>
+                      <itemPath>../src/config/default/driver/thread/openthread/src/core/net/dns_platform.cpp</itemPath>
                     </logicalFolder>
                     <logicalFolder name="radio" displayName="radio" projectFiles="true">
                       <itemPath>../src/config/default/driver/thread/openthread/src/core/radio/radio_callbacks.cpp</itemPath>
@@ -1265,6 +1283,7 @@
                       <itemPath>../src/config/default/driver/thread/openthread/src/core/thread/panid_query_server.cpp</itemPath>
                       <itemPath>../src/config/default/driver/thread/openthread/src/core/thread/link_metrics_types.cpp</itemPath>
                       <itemPath>../src/config/default/driver/thread/openthread/src/core/thread/network_diagnostic.cpp</itemPath>
+                      <itemPath>../src/config/default/driver/thread/openthread/src/core/thread/child_supervision.cpp</itemPath>
                     </logicalFolder>
                     <logicalFolder name="utils" displayName="utils" projectFiles="true">
                       <itemPath>../src/config/default/driver/thread/openthread/src/core/utils/otns.cpp</itemPath>
@@ -1279,7 +1298,7 @@
                       <itemPath>../src/config/default/driver/thread/openthread/src/core/utils/heap.cpp</itemPath>
                       <itemPath>../src/config/default/driver/thread/openthread/src/core/utils/slaac_address.cpp</itemPath>
                       <itemPath>../src/config/default/driver/thread/openthread/src/core/utils/srp_client_buffers.cpp</itemPath>
-                      <itemPath>../src/config/default/driver/thread/openthread/src/core/utils/child_supervision.cpp</itemPath>
+                      <itemPath>../src/config/default/driver/thread/openthread/src/core/utils/mesh_diag.cpp</itemPath>
                     </logicalFolder>
                   </logicalFolder>
                 </logicalFolder>
@@ -1390,7 +1409,7 @@
               </logicalFolder>
               <logicalFolder name="src" displayName="src" projectFiles="true">
                 <logicalFolder name="crypto" displayName="crypto" projectFiles="true">
-                  <itemPath>../src/config/default/driver/thread/src/crypto/aes_alt.c</itemPath>
+                  <itemPath>../src/config/default/driver/thread/src/crypto/crypto.c</itemPath>
                 </logicalFolder>
                 <itemPath>../src/config/default/driver/thread/src/entropy.c</itemPath>
                 <itemPath>../src/config/default/driver/thread/src/diag.c</itemPath>
@@ -1399,10 +1418,10 @@
                 <itemPath>../src/config/default/driver/thread/src/radio.c</itemPath>
                 <itemPath>../src/config/default/driver/thread/src/flash.c</itemPath>
                 <itemPath>../src/config/default/driver/thread/src/misc.c</itemPath>
-                <itemPath>../src/config/default/driver/thread/src/cxx_helpers.c</itemPath>
                 <itemPath>../src/config/default/driver/thread/src/logging.c</itemPath>
                 <itemPath>../src/config/default/driver/thread/src/uart.c</itemPath>
                 <itemPath>../src/config/default/driver/thread/src/system.c</itemPath>
+                <itemPath>../src/config/default/driver/thread/src/cxx_helpers.cpp</itemPath>
               </logicalFolder>
             </logicalFolder>
           </logicalFolder>
@@ -1601,13 +1620,6 @@
       <itemPath>../src/main.c</itemPath>
       <itemPath>../src/app.c</itemPath>
       <itemPath>../src/thread_demo.c</itemPath>
-      <itemPath>../src/udp_demo.c</itemPath>
-    </logicalFolder>
-    <logicalFolder name="ExternalFiles"
-                   displayName="Important Files"
-                   projectFiles="false">
-      <itemPath>Makefile</itemPath>
-      <itemPath>PIC32CXBZ2_Thread_TempSensor_SW.mc3</itemPath>
     </logicalFolder>
   </logicalFolder>
   <sourceRootList>
@@ -1621,23 +1633,23 @@
         <targetDevice>WBZ451</targetDevice>
         <targetHeader></targetHeader>
         <targetPluginBoard></targetPluginBoard>
-        <platformTool>pkob4hybrid</platformTool>
+        <platformTool>noID</platformTool>
         <languageToolchain>XC32</languageToolchain>
-        <languageToolchainVersion>4.35</languageToolchainVersion>
+        <languageToolchainVersion>4.40</languageToolchainVersion>
         <platform>3</platform>
       </toolsSet>
       <packs>
         <pack name="CMSIS" vendor="ARM" version="5.8.0"/>
-        <pack name="PIC32CX-BZ_DFP" vendor="Microchip" version="1.2.230"/>
+        <pack name="PIC32CX-BZ_DFP" vendor="Microchip" version="1.4.243"/>
       </packs>
       <ScriptingSettings>
       </ScriptingSettings>
       <compileType>
         <linkerTool>
           <linkerLibItems>
-            <linkerLibFileItem>../src/config/default/driver/lib/lib-ieee802154_phy_pic32cxbz-v1.1.0.a</linkerLibFileItem>
             <linkerLibFileItem>../src/config/default/driver/pds/pds.a</linkerLibFileItem>
             <linkerLibFileItem>../src/config/default/driver/device_support/pic32cx_bz2_device_support.a</linkerLibFileItem>
+            <linkerLibFileItem>../src/config/default/driver/lib/lib-ieee802154_phy_pic32cxbz-v1.2.0.a</linkerLibFileItem>
           </linkerLibItems>
         </linkerTool>
         <archiverTool>
@@ -1651,11 +1663,11 @@
         </subordinates>
       </compileType>
       <makeCustomizationType>
-        <makeCustomizationPreStepEnabled>false</makeCustomizationPreStepEnabled>
+        <makeCustomizationPreStepEnabled>true</makeCustomizationPreStepEnabled>
         <makeUseCleanTarget>false</makeUseCleanTarget>
-        <makeCustomizationPreStep></makeCustomizationPreStep>
-        <makeCustomizationPostStepEnabled>false</makeCustomizationPostStepEnabled>
-        <makeCustomizationPostStep>copy "dist\default\production\ot_robo_tempSens_ftd.X.production.hex" "..\..\hex\ot_robo_tempSesnor.hex"</makeCustomizationPostStep>
+        <makeCustomizationPreStep>del "..\..\hex\${ProjectName}.hex"</makeCustomizationPreStep>
+        <makeCustomizationPostStepEnabled>true</makeCustomizationPostStepEnabled>
+        <makeCustomizationPostStep>copy "dist\default\production\${ProjectName}.X.production.hex" "..\..\hex\${ProjectName}.hex"</makeCustomizationPostStep>
         <makeCustomizationPutChecksumInUserID>false</makeCustomizationPutChecksumInUserID>
         <makeCustomizationEnableLongLines>false</makeCustomizationEnableLongLines>
         <makeCustomizationNormalizeHexFile>true</makeCustomizationNormalizeHexFile>
@@ -1803,6 +1815,7 @@
       </C32Global>
       <Tool>
         <property key="AutoSelectMemRanges" value="auto"/>
+        <property key="SecureSegment.SegmentProgramming" value="FullChipProgramming"/>
         <property key="ToolFirmwareFilePath"
                   value="Press to browse for a specific firmware version"/>
         <property key="ToolFirmwareOption.UpdateOptions"
@@ -1816,6 +1829,7 @@
         <property key="debugoptions.reset-behaviour" value="Use system settings"/>
         <property key="debugoptions.simultaneous.debug" value="false"/>
         <property key="debugoptions.useswbreakpoints" value="false"/>
+        <property key="event.recorder.debugger.behavior" value="Running"/>
         <property key="event.recorder.enabled" value="false"/>
         <property key="event.recorder.scvd.files" value=""/>
         <property key="freeze.timers" value="false"/>
@@ -1850,6 +1864,7 @@
         <property key="programoptions.program.otpconfig" value="false"/>
         <property key="programoptions.programcalmem" value="false"/>
         <property key="programoptions.programuserotp" value="false"/>
+        <property key="programoptions.smart.program" value="When debugging only"/>
         <property key="programoptions.testmodeentrymethod" value="VDDFirst"/>
         <property key="toolpack.updateoptions"
                   value="toolpack.updateoptions.uselatestoolpack"/>
@@ -1858,6 +1873,7 @@
       </Tool>
       <pkob4hybrid>
         <property key="AutoSelectMemRanges" value="auto"/>
+        <property key="SecureSegment.SegmentProgramming" value="FullChipProgramming"/>
         <property key="ToolFirmwareFilePath"
                   value="Press to browse for a specific firmware version"/>
         <property key="ToolFirmwareOption.UpdateOptions"
@@ -1871,6 +1887,7 @@
         <property key="debugoptions.reset-behaviour" value="Use system settings"/>
         <property key="debugoptions.simultaneous.debug" value="false"/>
         <property key="debugoptions.useswbreakpoints" value="false"/>
+        <property key="event.recorder.debugger.behavior" value="Running"/>
         <property key="event.recorder.enabled" value="false"/>
         <property key="event.recorder.scvd.files" value=""/>
         <property key="freeze.timers" value="false"/>
@@ -1903,6 +1920,7 @@
         <property key="programoptions.program.otpconfig" value="false"/>
         <property key="programoptions.programcalmem" value="false"/>
         <property key="programoptions.programuserotp" value="false"/>
+        <property key="programoptions.smart.program" value="When debugging only"/>
         <property key="programoptions.testmodeentrymethod" value="VDDFirst"/>
         <property key="toolpack.updateoptions"
                   value="toolpack.updateoptions.uselatestoolpack"/>

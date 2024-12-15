@@ -57,11 +57,9 @@
 #include "utils/uart.h"
 #include "timers.h"
 #include "thread_demo.h"
-#include "udp_demo.h"
 
 #include <assert.h>
 
-#define LEADER_NAME ("Leader-")
 // *****************************************************************************
 // *****************************************************************************
 
@@ -76,7 +74,7 @@ bool dataInitialized = false;
 bool deviceStateUpdated = false;
 
 void threadTmrCb(TimerHandle_t pxTimer);
-extern volatile uint16_t temperature_value;
+
 #define TOTAL_DEMO_DEVICES              (10)
 
 void otHandleStateChangecb(otChangedFlags aFlags, void *aContext)
@@ -124,9 +122,16 @@ extern devMsgType_t demoMsg;
 extern float temp_demo_value;
 extern otIp6Address gatewayAddr;
 extern devTypeThermostatSensorSet_t tempSensor;
-
+extern devTypeThermostatHVACReport_t tempHVACReport;
 void threadSendIPAddr(void)
 {
+    if(0 != gatewayAddr.mFields.m32[0])
+    {
+        demoMsg.msgType = MSG_TYPE_THERMO_HVAC_REPORT;
+        memcpy(&demoMsg.msg, &tempHVACReport, sizeof(devTypeThermostatHVACReport_t));
+        threadUdpSend(&gatewayAddr, 4 + sizeof(devTypeThermostatHVACReport_t), (uint8_t *)&demoMsg);
+        app_printf("App Log:HVAC Status Report\r\n");
+    }
 
 }
 

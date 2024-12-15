@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2023, The OpenThread Authors.
+ *  Copyright (c) 2024, The OpenThread Authors.
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -28,7 +28,7 @@
 
 
 /*******************************************************************************
-* Copyright (C) [2023], Microchip Technology Inc., and its subsidiaries. All rights reserved.
+* Copyright (C) [2024], Microchip Technology Inc., and its subsidiaries. All rights reserved.
   
 * The software and documentation is provided by Microchip and its contributors 
 * "as is" and any express, implied or statutory warranties, including, but not 
@@ -60,11 +60,12 @@
 #include "configuration.h"
 #include "definitions.h"
 #include "platform-pic32cx.h"
+#include "ot_tasks.h"
 
 #include <assert.h>
 #include <openthread-core-config.h>
 #include <openthread/config.h>
-
+#include <openthread/logging.h>
 #include <openthread-system.h>
 #include <openthread/diag.h>
 #include <openthread/tasklet.h>
@@ -75,8 +76,6 @@
 // Section: RTOS "Tasks" Routine
 // *****************************************************************************
 // *****************************************************************************
-
-void taskOpenThread(void *pvParam);
 
 TaskHandle_t taskHandleOpenThread;
 
@@ -96,10 +95,20 @@ void otTaskletsSignalPending(otInstance *aInstance)
     OSAL_QUEUE_Send(&OTQueue, &otTaskletMsg,0);
 }
 
+bool otIsIdle(void)
+{
+    if(otTaskletsArePending(instance))
+    {
+        return false;
+    }
+
+    return true;
+}
+
 
 void taskOpenThread(void *pvParam)
 {
-    OT_Msg_T   otMessage;
+    OT_Msg_T   otMessage = {0};
     instance = (otInstance *) pvParam;
     
     
@@ -107,7 +116,8 @@ pseudo_reset:
 
     instance = otInstanceInitSingle();
     assert(instance);
-
+    otSysProcessDrivers(instance);
+    otLoggingSetLevel(OT_LOG_LEVEL_NONE);
     
     while (true)
     {
